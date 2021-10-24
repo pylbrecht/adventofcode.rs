@@ -1,7 +1,6 @@
 use std::ops::Add;
 
-pub fn run() {
-}
+pub fn run() {}
 
 #[derive(Debug)]
 enum Step {
@@ -20,6 +19,10 @@ struct Point {
 impl Point {
     fn new(x: isize, y: isize) -> Point {
         Point { x, y }
+    }
+
+    fn is_origin(&self) -> bool {
+        self.x == 0 && self.y == 0
     }
 }
 
@@ -41,6 +44,14 @@ struct Wire {
 }
 
 impl Wire {
+    fn cross_overs(&self, other: Wire) -> Vec<Point> {
+        self.path
+            .iter()
+            .filter(|point| !point.is_origin() && other.path().contains(point))
+            .cloned()
+            .collect()
+    }
+
     fn from_instructions(instructions: &str) -> Wire {
         let mut cursor = Point::new(0, 0);
         let mut path = vec![cursor];
@@ -83,6 +94,19 @@ mod tests {
     fn create_wire_from_instructions() {
         let instructions = "U8,R4";
         let wire = Wire::from_instructions(instructions);
-        assert_eq!(wire.path(), [Point::new(0, 0), Point::new(0, 8), Point::new(4, 8)]);
+        assert_eq!(
+            wire.path(),
+            [Point::new(0, 0), Point::new(0, 8), Point::new(4, 8)]
+        );
+    }
+
+    #[test]
+    fn find_cross_overs() {
+        let wire1 = Wire::from_instructions("U8,R4");
+        let wire2 = Wire::from_instructions("U8,R4");
+        assert_eq!(
+            wire1.cross_overs(wire2),
+            [Point::new(0, 8), Point::new(4, 8)]
+        );
     }
 }
