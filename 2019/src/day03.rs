@@ -79,6 +79,10 @@ impl Wire {
     }
 }
 
+fn manhatten_distance(p1: Point, p2: Point) -> isize {
+    (p1.x - p2.x).abs() + (p1.y - p2.y).abs()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -108,5 +112,12 @@ mod tests {
             wire1.cross_overs(wire2),
             [Point::new(0, 8), Point::new(4, 8)]
         );
+    }
+
+    #[test]
+    fn calc_manhatten_distance() {
+        let point1 = Point::new(0, 0);
+        let point2 = Point::new(6, 6);
+        assert_eq!(manhatten_distance(point1, point2), 12);
     }
 }
