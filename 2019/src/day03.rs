@@ -106,11 +106,11 @@ mod tests {
 
     #[test]
     fn find_cross_overs() {
-        let wire1 = Wire::from_instructions("U8,R4");
-        let wire2 = Wire::from_instructions("U8,R4");
+        let wire1 = Wire::from_instructions("R8,U5,L5,D3");
+        let wire2 = Wire::from_instructions("U7,R6,D4,L4");
         assert_eq!(
             wire1.cross_overs(wire2),
-            [Point::new(0, 8), Point::new(4, 8)]
+            [Point::new(3, 3), Point::new(6, 6)]
         );
     }
 
