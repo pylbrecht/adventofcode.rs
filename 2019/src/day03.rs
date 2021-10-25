@@ -120,4 +120,17 @@ mod tests {
         let point2 = Point::new(6, 6);
         assert_eq!(manhatten_distance(point1, point2), 12);
     }
+
+    #[test]
+    fn example1() {
+        let wire1 = Wire::from_instructions("R8,U5,L5,D3");
+        println!("{:?}", wire1.path());
+        let wire2 = Wire::from_instructions("U7,R6,D4,L4");
+        println!("{:?}", wire2.path());
+        let cross_overs = wire1.cross_overs(wire2);
+        println!("{}", cross_overs.len());
+        let origin = Point::new(0, 0);
+        let distance = cross_overs.iter().map(|point| manhatten_distance(origin, *point)).min().unwrap();
+        assert_eq!(distance, 6);
+    }
 }
